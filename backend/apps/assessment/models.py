@@ -18,15 +18,15 @@ class BusinessAssessment(models.Model):
     # Ideal State
     business_vision = models.TextField()
     primary_goals = models.TextField()
-    success_indicators = models.TextField(blank=True)
+    specific_outcomes = models.TextField(blank=True)
     
     # Market Analysis
     market_research = models.TextField()
     target_customers = models.TextField()
-    competitors = models.TextField()
+    main_competitors = models.TextField()
     
     # Brand Identity
-    current_brand_identity = models.TextField()
+    brand_identity = models.TextField()
     brand_values = models.TextField()
     brand_assets = models.TextField()
     
@@ -47,7 +47,7 @@ class BusinessAssessment(models.Model):
     # Analysis Results
     analysis_result = models.JSONField(null=True, blank=True)
     
-    # Metadata
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

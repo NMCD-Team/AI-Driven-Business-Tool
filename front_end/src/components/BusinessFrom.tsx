@@ -1,22 +1,56 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Paper, Typography } from '@mui/material';
 import { BusinessFormData, AnalysisResult } from '../types/FormTypes';
+import AnalysisResults from './AnalysisResults';
+
 
 const BusinessForm = () => {
-  const [formData, setFormData] = useState<BusinessFormData>({
+  const [formData, setFormData] = useState({
+    // Section 1
     email: '',
     full_name: '',
+
+    // Section 2 - General Business Information
     company_name: '',
     industry_niche: '',
     years_in_business: '',
     number_of_employees: '',
     annual_revenue: '',
     geographic_locations: '',
+
+    // Section 3 - Current State Assessment
     main_products: '',
     current_performance: '',
     biggest_challenges: '',
+
+    // Section 4 - Ideal State Vision
     business_vision: '',
     primary_goals: '',
+    specific_outcomes: '',
+
+    // Section 5 - Market Research
+    market_research: '',
+    target_customers: '',
+    main_competitors: '',
+
+    // Section 6 - Branding
+    brand_identity: '',
+    brand_values: '',
+    brand_assets: '',
+
+    // Section 7 - Operations Setup
+    organizational_structure: '',
+    operations_management: '',
+    operational_challenges: '',
+
+    // Section 8 - Business Plan and Goals
+    business_plan: '',
+    business_goals: '',
+    progress_tracking: '',
+
+    // Section 9 - Additional Information
+    additional_info: '',
+    specific_questions: ''
   });
 
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
@@ -24,6 +58,8 @@ const BusinessForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      console.log('Submitting data:', formData); 
+      
       const response = await fetch('http://localhost:8000/api/analyze/', {
         method: 'POST',
         headers: {
@@ -31,14 +67,24 @@ const BusinessForm = () => {
         },
         body: JSON.stringify(formData),
       });
-      
-      const data: AnalysisResult = await response.json();
+
+      console.log('Response status:', response.status);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Response data:', data);
       setAnalysisResult(data);
-      console.log('Analysis result:', data);
+      
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Submission error:', error);
+      alert('Error submitting form. Please make sure the backend server is running.');
     }
-  };
+};
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,27 +95,46 @@ const BusinessForm = () => {
     }));
   };
 
+
   return (
     <Paper elevation={3} sx={{ p: 4, m: 2, maxWidth: 800, mx: 'auto' }}>
       <Typography variant="h4" gutterBottom>
-        Business Assessment Form
+        NMCD Inc. Online Consultation Intake Form
       </Typography>
+      <Typography variant="body1" sx={{ mb: 3 }}>
+        Time: 15 to 30 minutes to thoroughly complete the assessment.
+      </Typography>
+
       <form onSubmit={handleSubmit}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {/* Section 1 */}
+          <Typography variant="h5" sx={{ mt: 2 }}>
+            Section 1 of 9
+          </Typography>
           <TextField
             required
             name="email"
             label="Email"
             value={formData.email}
             onChange={handleChange}
+            helperText="This form is collecting emails"
           />
           <TextField
             required
             name="full_name"
-            label="Full Name"
+            label="Your Full Name"
             value={formData.full_name}
             onChange={handleChange}
           />
+
+
+          {/* Section 2 */}
+          <Typography variant="h5">
+            Section 2 of 9 - General Business Information
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Description (optional)
+          </Typography>
           <TextField
             required
             name="company_name"
@@ -80,14 +145,10 @@ const BusinessForm = () => {
           <TextField
             required
             name="industry_niche"
-            label="Industry Niche"
+            label="Industry/Niche"
             value={formData.industry_niche}
             onChange={handleChange}
           />
-          {/* Add section headers */}
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Business Information
-          </Typography>
           <TextField
             required
             name="years_in_business"
@@ -105,24 +166,32 @@ const BusinessForm = () => {
           <TextField
             required
             name="annual_revenue"
-            label="Annual Revenue"
+            label="Annual Revenue (approximate)"
             value={formData.annual_revenue}
             onChange={handleChange}
           />
           <TextField
             required
             name="geographic_locations"
-            label="Geographic Locations"
+            label="Geographic Location(s) of Operations"
             value={formData.geographic_locations}
             onChange={handleChange}
           />
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Current State Assesment
+{/* 
+
+          {/* Section 3 */}
+          <Typography variant="h5">
+            Section 3 of 9 - Current State Assessment
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Description (optional)
           </Typography>
           <TextField
             required
+            multiline
+            rows={3}
             name="main_products"
-            label="Main Products"
+            label="What are the main products/services offered by your business?"
             value={formData.main_products}
             onChange={handleChange}
           />
@@ -140,6 +209,10 @@ const BusinessForm = () => {
             value={formData.biggest_challenges}
             onChange={handleChange}
           />
+
+          <Typography variant="h5">
+            Section 4 of 9 - Ideal State Vision
+          </Typography>
           <TextField
             required
             name="business_vision"
@@ -154,7 +227,37 @@ const BusinessForm = () => {
             value={formData.primary_goals}
             onChange={handleChange}
           />
-          {/* Add more fields with section headers */}
+          <TextField
+            required
+            name="specific_outcomes"
+            label="Specific Outcomes"
+            value={formData.specific_outcomes}
+            onChange={handleChange}
+          />
+          <Typography variant="h5">
+            Section 5 of 9 - Market Research Analysis
+          </Typography>        
+          <TextField
+            required
+            name="market_research"
+            label="Market Research"
+            value={formData.market_research}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="target_customers"
+            label="Target Customers"
+            value={formData.target_customers}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="main_competitors"
+            label="Main Competitors"
+            value={formData.main_competitors}
+            onChange={handleChange}
+          />
           
           <Button 
             type="submit" 
@@ -167,42 +270,8 @@ const BusinessForm = () => {
           </Button>
         </Box>
       </form>
-
-      {/* Add this section to display results */}
-      {analysisResult && (
-        <Box sx={{ mt: 4, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
-          <Typography variant="h5" gutterBottom>
-            Analysis Results
-          </Typography>
-          
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Key Entities
-          </Typography>
-          <ul>
-            {analysisResult.analysis.key_entities.map((entity, index) => (
-              <li key={index}>{entity[0]} - {entity[1]}</li>
-            ))}
-          </ul>
-
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Key Phrases
-          </Typography>
-          <ul>
-            {analysisResult.analysis.key_phrases.map((phrase, index) => (
-              <li key={index}>{phrase}</li>
-            ))}
-          </ul>
-
-          <Typography variant="h6" sx={{ mt: 2 }}>
-            Recommendations
-          </Typography>
-          <ul>
-            {analysisResult.analysis.recommendations.map((rec, index) => (
-              <li key={index}>{rec}</li>
-            ))}
-          </ul>
-        </Box>
-      )}   
+      // Remove the inline results section and replace it with:
+      {analysisResult && <AnalysisResults results={analysisResult} />}
     </Paper>
   );
 };
