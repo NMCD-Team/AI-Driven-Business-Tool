@@ -1,74 +1,71 @@
-// components/AnalysisResults.tsx
 import { Box, Typography, Paper } from '@mui/material';
+import { AnalysisResult } from '../types/FormTypes';
 
 interface AnalysisResultsProps {
-  results: {
-    analysis: {
-      key_entities: [string, string][];
-      key_phrases: string[];
-      recommendations: string[];
-    };
-  };
+  results: AnalysisResult;
 }
 
 const AnalysisResults = ({ results }: AnalysisResultsProps) => {
   return (
     <Paper elevation={2} sx={{ mt: 4, p: 3 }}>
       <Typography variant="h5" color="primary" gutterBottom>
-        Business Analysis Results
+        Business Analysis Report
       </Typography>
 
-      <Box sx={{ mb: 3 }}>
+      {/* Market Position */}
+      <Box sx={{ mb: 4 }}>
         <Typography variant="h6" color="secondary">
-          Key Business Entities
+          Market Position Analysis
         </Typography>
-        {results.analysis.key_entities.length > 0 ? (
-          <ul>
-            {results.analysis.key_entities.map((entity, index) => (
-              <li key={index}>
-                <Typography>
-                  <strong>{entity[0]}</strong> ({entity[1]})
-                </Typography>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Typography color="text.secondary">No key entities identified</Typography>
-        )}
+        <ul>
+          {results.analysis.market_position.map((insight: string, index: number) => (
+            <li key={index}>
+              <Typography>{insight}</Typography>
+            </li>
+          ))}
+        </ul>
       </Box>
 
-      <Box sx={{ mb: 3 }}>
+      {/* Growth Potential */}
+      <Box sx={{ mb: 4 }}>
         <Typography variant="h6" color="secondary">
-          Key Phrases
+          Growth Potential
         </Typography>
-        {results.analysis.key_phrases.length > 0 ? (
-          <ul>
-            {results.analysis.key_phrases.map((phrase, index) => (
-              <li key={index}>
-                <Typography>{phrase}</Typography>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Typography color="text.secondary">No key phrases identified</Typography>
-        )}
+        <ul>
+          {results.analysis.growth_potential.map((insight: string, index: number) => (
+            <li key={index}>
+              <Typography>{insight}</Typography>
+            </li>
+          ))}
+        </ul>
       </Box>
 
+      {/* Operational Insights */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h6" color="secondary">
+          Operational Insights
+        </Typography>
+        <ul>
+          {results.analysis.operational_insights.map((insight: string, index: number) => (
+            <li key={index}>
+              <Typography>{insight}</Typography>
+            </li>
+          ))}
+        </ul>
+      </Box>
+
+      {/* Strategic Recommendations */}
       <Box>
         <Typography variant="h6" color="secondary">
-          Recommendations
+          Strategic Recommendations
         </Typography>
-        {results.analysis.recommendations.length > 0 ? (
-          <ul>
-            {results.analysis.recommendations.map((rec, index) => (
-              <li key={index}>
-                <Typography>{rec}</Typography>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Typography color="text.secondary">No recommendations available</Typography>
-        )}
+        <ul>
+          {results.analysis.strategic_recommendations.map((rec: string, index: number) => (
+            <li key={index}>
+              <Typography>{rec}</Typography>
+            </li>
+          ))}
+        </ul>
       </Box>
     </Paper>
   );

@@ -1,63 +1,107 @@
-from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import BusinessAssessment
-from .serializers import BusinessAssessmentSerializer
+from rest_framework import status
 import spacy
-import json
-
-class BusinessAssessmentViewSet(viewsets.ModelViewSet):
-    queryset = BusinessAssessment.objects.all()
-    serializer_class = BusinessAssessmentSerializer
 
 class AnalyzeBusinessView(APIView):
     def post(self, request):
         try:
-            # Print received data for debugging
-            print("Received data:", request.data)
+            data = request.data
+            print("Received data:", data)  
             
-            # Load spaCy model
             nlp = spacy.load('en_core_web_sm')
             
-            # Combine relevant text fields for analysis
-            analysis_text = f"{request.data.get('main_products', '')} {request.data.get('current_performance', '')} {request.data.get('business_vision', '')} {request.data.get('target_customers', '')}"
+            # Create a comprehensive business profile text
+            business_profile = f"""
+                Business Profile: {data.get('company_name')} is a {data.get('industry_niche')} business 
+                that has been operating for {data.get('years_in_business')} years with {data.get('number_of_employees')} employees.
+                
+                Their main products/services: {data.get('main_products')}
+                
+                Current Performance: {data.get('current_performance')}
+                
+                Major Challenges: {data.get('biggest_challenges')}
+                
+                Business Vision: {data.get('business_vision')}
+                
+                Primary Goals: {data.get('primary_goals')}
+                
+                Target Market: {data.get('target_customers')}
+                
+                Market Research: {data.get('market_research')}
+                
+                Competition: {data.get('main_competitors')}
+            """
             
-            # Process text with spaCy
-            doc = nlp(analysis_text)
+            # Process with spaCy
+            doc = nlp(business_profile)
             
-            # Perform analysis
-            analysis_result = {
-                'key_entities': [(ent.text, ent.label_) for ent in doc.ents],
-                'key_phrases': [chunk.text for chunk in doc.noun_chunks],
-                'recommendations': self.generate_recommendations(doc),
+            # Analyze key aspects
+            business_analysis = {
+                'market_position': self.analyze_market_position(doc),
+                'growth_potential': self.analyze_growth_potential(doc),
+                'operational_insights': self.analyze_operations(doc),
+                'strategic_recommendations': self.generate_strategic_recommendations(doc)
             }
             
             return Response({
                 'status': 'success',
                 'message': 'Analysis completed successfully',
-                'data': request.data,
-                'analysis': analysis_result
+                'analysis': business_analysis
             }, status=status.HTTP_200_OK)
             
         except Exception as e:
-            print("Error in view:", str(e))  # Debug print
+            print("Error in analysis:", str(e))
             return Response({
                 'status': 'error',
                 'message': str(e)
             }, status=status.HTTP_400_BAD_REQUEST)
 
-    def generate_recommendations(self, doc):
+    def analyze_market_position(self, doc):
+        # Use spaCy to analyze market position
+        market_insights = []
+        for sent in doc.sents:
+            if any(keyword in sent.text.lower() for keyword in ['market', 'customer', 'competitor', 'industry']):
+                market_insights.append(sent.text.strip())
+        return market_insights
+
+    def analyze_growth_potential(self, doc):
+        # Analyze growth opportunities
+        growth_insights = []
+        for sent in doc.sents:
+            if any(keyword in sent.text.lower() for keyword in ['growth', 'expand', 'increase', 'opportunity', 'potential']):
+                growth_insights.append(sent.text.strip())
+        return growth_insights
+
+    def analyze_operations(self, doc):
+        # Analyze operational aspects
+        operational_insights = []
+        for sent in doc.sents:
+            if any(keyword in sent.text.lower() for keyword in ['process', 'operation', 'management', 'staff', 'employee']):
+                operational_insights.append(sent.text.strip())
+        return operational_insights
+
+    def generate_strategic_recommendations(self, doc):
+        # Generate strategic recommendations based on the analysis
         recommendations = []
         
-        # Example recommendation logic
-        if len(doc.ents) < 5:
-            recommendations.append("Consider providing more detailed information about your business operations")
-        
-        # Add more business-specific recommendations
-        if any(token.text.lower() in ['expand', 'growth', 'scale'] for token in doc):
-            recommendations.append("Consider developing a detailed growth strategy")
-        
-        if any(token.text.lower() in ['customer', 'client'] for token in doc):
-            recommendations.append("Focus on customer relationship management")
-        
+        # Analyze sentiment and context
+        for sent in doc.sents:
+            sent_text = sent.text.lower()
+            
+            # Look for challenges and opportunities
+            if 'challenge' in sent_text or 'problem' in sent_text:
+                recommendations.append(f"Address identified challenge: {sent.text.strip()}")
+            
+            if 'goal' in sent_text or 'vision' in sent_text:
+                recommendations.append(f"Strategic opportunity: {sent.text.strip()}")
+                
+            # Look for specific business aspects
+            if 'customer' in sent_text:
+                recommendations.append("Enhance customer experience and engagement")
+            if 'market' in sent_text:
+                recommendations.append("Strengthen market position through targeted strategies")
+            if 'competitor' in sent_text:
+                recommendations.append("Develop competitive advantages and differentiation")
+
         return recommendations
