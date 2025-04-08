@@ -20,14 +20,7 @@ const Register = () => {
     const photo = from.get("photo");
     const email = from.get("email");
     const password = from.get("password");
-    // const passRegex = /^(?=.*[A-Z])(?=.*[a-z]).{6,}$/;
-
-    // if (!passRegex.test(password)) {
-    //   toast.error(
-    //     "Password must have at least one uppercase letter, one lowercase letter, and be at least 6 characters long."
-    //   );
-    //   return;
-    // }
+    
 
     userRegister(email, password)
       .then((result) => {
