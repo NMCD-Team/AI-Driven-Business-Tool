@@ -14,9 +14,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+
+
+# AI_Business_Tool/urls.py
 from django.urls import path
+from .views import QuestionnaireCreateView, ReportListView
+from django.http import JsonResponse
+
+def api_root(request):
+    return JsonResponse({
+        'questionnaire': '/api/questionnaire/',
+        'user_reports': '/api/reports/<user_id>/'
+    })
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', api_root),  # root URL now responds
+    path('api/questionnaire/', QuestionnaireCreateView.as_view(), name='create-questionnaire'),
+    path('api/reports/<int:user_id>/', ReportListView.as_view(), name='user-reports'),
 ]
+
