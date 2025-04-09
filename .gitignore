@@ -4,7 +4,6 @@ backend/__pycache__/
 backend/*.pyc
 backend/db.sqlite3
 /.venv
-/AI_Business_Tool/AI-Driven-Business-Tool/backend/local_settings.py
 
 # Frontend
 frontend/.env
