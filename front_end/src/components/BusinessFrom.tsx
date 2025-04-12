@@ -270,7 +270,6 @@ const BusinessForm = () => {
           </Button>
         </Box>
       </form>
-      // Remove the inline results section and replace it with:
       {analysisResult && <AnalysisResults results={analysisResult} />}
     </Paper>
   );
