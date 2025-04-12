@@ -20,7 +20,6 @@ const Register = () => {
     const photo = from.get("photo");
     const email = from.get("email");
     const password = from.get("password");
-    
 
     userRegister(email, password)
       .then((result) => {
@@ -59,35 +58,26 @@ const Register = () => {
         </h2>
         <form onSubmit={handleSubmit} className="card-body">
           <div className="form-control ">
-            <label className="label">
+            <label className="label" htmlFor="name">
               <span className="label-text">Your Name</span>
             </label>
             <input
               type="text"
+              id="name"
               name="name"
               placeholder="Enter your name"
               className="input input-bordered"
               required
             />
           </div>
+        
           <div className="form-control ">
-            <label className="label">
-              <span className="label-text">Photo URL</span>
-            </label>
-            <input
-              type="text"
-              name="photo"
-              placeholder="Enter your photo URL"
-              className="input input-bordered"
-              required
-            />
-          </div>
-          <div className="form-control ">
-            <label className="label">
+            <label className="label" htmlFor="email">
               <span className="label-text">Email</span>
             </label>
             <input
               type="email"
+              id="email"
               name="email"
               placeholder="email"
               className="input input-bordered"
@@ -95,7 +85,7 @@ const Register = () => {
             />
           </div>
           <div className="form-control relative">
-            <label className="label">
+            <label className="label" htmlFor="password">
               <span className="label-text">Password</span>
             </label>
             <input
@@ -105,12 +95,13 @@ const Register = () => {
               className="input input-bordered"
               required
             />
-            <a
+            <button
               onClick={handleShowPass}
+              type="button"
               className="text-xl cursor-pointer absolute top-12 right-5"
             >
               {show ? <IoEye /> : <IoMdEyeOff />}
-            </a>
+            </button>
           </div>
           <div className="form-control mt-6">
             <button className="btn btn-ghost bg-sky-500  text-white hover:text-slate-950">
@@ -119,16 +110,16 @@ const Register = () => {
           </div>
         </form>
         <h2 className="font-normal text-center">
-          Already Have an account ?
+          Already Have an account ? 
           <Link className="text-sky-500" to={"/auth/login"}>
             Login
           </Link>
         </h2>
         <button onClick={handleGoogleSignIn} className="btn w-56 mx-auto mt-4">
-          <span className="text-2xl">
+          <span className="text-2xl flex items-center gap-2">
             <FcGoogle />
+            <span>Register with Google</span>
           </span>
-          Register with Google
         </button>
       </div>
     </div>
