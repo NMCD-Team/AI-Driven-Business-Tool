@@ -4,7 +4,6 @@ backend/__pycache__/
 backend/*.pyc
 backend/db.sqlite3
 backend/backend/local_settings.py
-/.venv
 
 # Frontend
 frontend/.env
@@ -14,6 +13,7 @@ frontend/.env
 .vscode/
 .idea/
 *.log
+venv/
 
 __pycache__/
 *.py[cod]
