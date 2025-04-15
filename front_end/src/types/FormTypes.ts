@@ -1,14 +1,28 @@
 export interface AnalysisResult {
   status: string;
-  message: string;
   analysis: {
-    market_position: string[];
-    growth_potential: string[];
-    operational_insights: string[];
-    strategic_recommendations: string[];
+    market_position: {
+      competitors: string[];
+      market_share: string[];
+      positioning: string[];
+    };
+    growth_potential: {
+      opportunities: string[];
+      risks: string[];
+      growth_indicators: string[];
+    };
+    operational_insights: {
+      processes: string[];
+      resources: string[];
+      efficiency_metrics: string[];
+    };
+    strategic_recommendations: Array<{
+      action: string;
+      context: string;
+      priority: string;
+    }>;
   };
 }
-
 export interface BusinessFormData {
   // Section 1
   email: string;

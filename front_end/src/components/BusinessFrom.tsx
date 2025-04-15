@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Paper, Typography } from '@mui/material';
-import { BusinessFormData, AnalysisResult } from '../types/FormTypes';
 import AnalysisResults from './AnalysisResults';
+import { AnalysisResult } from '../types/FormTypes';
 
 
 const BusinessForm = () => {
@@ -58,7 +58,7 @@ const BusinessForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log('Submitting data:', formData); 
+      console.log('Submitting data:', JSON.stringify(formData, null, 2));
       
       const response = await fetch('http://localhost:8000/api/analyze/', {
         method: 'POST',
@@ -77,7 +77,7 @@ const BusinessForm = () => {
       }
 
       const data = await response.json();
-      console.log('Response data:', data);
+      console.log('Response data:', JSON.stringify(data, null, 2));
       setAnalysisResult(data);
       
     } catch (error) {
@@ -258,7 +258,106 @@ const BusinessForm = () => {
             value={formData.main_competitors}
             onChange={handleChange}
           />
-          
+          <Typography variant="h5">
+            Section 5 of 9 - Brand Research
+          </Typography>
+          <TextField
+            required
+            name="market_research"
+            label="Market Research"
+            value={formData.market_research}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="target_customers"
+            label="Target Customers"
+            value={formData.target_customers}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="main_competitors"
+            label="Main Competitors"
+            value={formData.main_competitors}
+            onChange={handleChange}
+          />
+
+          <Typography variant="h5">
+            Section 6 of 9 - Branding
+          </Typography>  
+          <TextField
+            required
+            name="brand_identity"
+            label="Brand Identity"
+            value={formData.brand_identity}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="brand_values"
+            label="Brand Values"
+            value={formData.brand_values}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="brand_assets"
+            label="Brand Assets"
+            value={formData.brand_assets}
+            onChange={handleChange}
+          />
+
+<Typography variant="h5">
+            Section 7 of 9 - Operations Setup
+          </Typography>  
+          <TextField
+            required
+            name="organizational_structure"
+            label="Organizational Structure"
+            value={formData.organizational_structure}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="operations_management"
+            label="Operations Management"
+            value={formData.operations_management}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="operational_challenges"
+            label="Operational Challenges"
+            value={formData.operational_challenges}
+            onChange={handleChange}
+          />
+
+          <Typography variant="h5">
+            Section 8 of 9 - Business Goals and Plans
+          </Typography>  
+          <TextField
+            required
+            name="business_plan"
+            label="Business Plan"
+            value={formData.business_plan}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="business_goals"
+            label="Business Goals"
+            value={formData.business_goals}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            name="progress_tracking"
+            label="Progress Tracking"
+            value={formData.progress_tracking}
+            onChange={handleChange}
+          />
+
           <Button 
             type="submit" 
             variant="contained" 
