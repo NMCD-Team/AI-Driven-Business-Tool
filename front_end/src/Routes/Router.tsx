@@ -8,8 +8,8 @@ import Login from "../Pages/Login.js";
 import Private from "../private/Private.js";
 import ErrorPage from "../Pages/ErrorPage.js";
 import ForgetPass from "../Pages/ForgetPass.js";
-import LandingPage from "../Pages/LandingPage.js";
 import Footer from "../components/Footer.js";
+import BusinessForm from "../components/BusinessFrom.js"; // import BusinessForm
 
 const router = createBrowserRouter([
   {
@@ -26,8 +26,8 @@ const router = createBrowserRouter([
         element: <About />,
       },
       {
-        path: "/landing-page",
-        element: <Private><LandingPage /></Private>,
+        path: "/business-form", // Route for BusinessForm
+        element: <Private><BusinessForm /></Private>, // Protect with Private route
       },
       {
         path: "/Footer",

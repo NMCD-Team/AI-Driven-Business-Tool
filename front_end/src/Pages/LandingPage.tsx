@@ -3,7 +3,6 @@ import { AuthContext } from "../Provider/Provider";
 import MultiStepForm, { FormStep } from "../components/MultiStepForm";
 import InputField from "../components/InputField";
 import * as yup from "yup";
-import BusinessForm from "../components/BusinessFrom";
 
 // Validation schemas
 const validationSchemaStep1 = yup.object({
@@ -42,56 +41,52 @@ const LandingPage: React.FC = () => {
         Let's get started with your business
       </h1>
 
-      <BusinessForm/>
-      
+      <MultiStepForm
+        initialValues={{ name: "", email: "", street: "", country: "" }}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values, null, 2));
+        }}
+      >
+        {/* Step 1: Personal Info */}
+        <FormStep
+          stepName="Personal Info"
+          validationSchema={validationSchemaStep1}
+        >
+          <div style={{ padding: '80px' }}>
+            <InputField name="name" label="Full Name" variant={"outlined"} />
+            <InputField name="email" label="Email Address" variant={"outlined"} />
+            <InputField name="phone" label="Phone Number" variant={"outlined"} />
+          </div>
+        </FormStep>
+
+        {/* Step 2: Business Info */}
+        <FormStep
+          stepName="Business Info"
+          validationSchema={validationSchemaStep2}
+        >
+          <InputField name="companyName" label="Company Name" variant="outlined" />
+          <InputField name="industry" label="Industry/Niche" variant="outlined" />
+          <InputField name="yearsInBusiness" label="Years in Business" variant="outlined" />
+          <InputField name="numberOfEmployees" label="Number of Employees" variant={"outlined"} />
+          <InputField name="annualRevenue" label="Annual Revenue" variant={"outlined"} />
+          <InputField name="geoLocation" label="Geographic Location" variant={"outlined"} />
+        </FormStep>
+
+        {/* Step 3: Business Questionnaire */}
+        <FormStep
+          stepName="Business Questionnaire"
+          validationSchema={validationSchemaStep3}
+        >
+          <InputField name="productCount" label="Main products/services offered" variant={"outlined"} />
+          <InputField name="performanceDetails" label="Current performance and profitability" variant={"outlined"} />
+          <InputField name="challenges" label="Biggest challenges faced" variant={"outlined"} />
+          <InputField name="vision" label="Vision for the future" variant={"outlined"} />
+          <InputField name="goals" label="Short-term and long-term goals" variant={"outlined"} />
+          <InputField name="achievements" label="Specific outcomes or achievements for success" variant={"outlined"} />
+        </FormStep>
+      </MultiStepForm>
     </div>
   );
 };
 
 export default LandingPage;
-
-
-// <MultiStepForm
-//         initialValues={{ name: "", email: "", street: "", country: "" }}
-//         onSubmit={(values) => {
-//           alert(JSON.stringify(values, null, 2));
-//         }}
-//       >
-//         {/* Step 1: Personal Info */}
-//         <FormStep
-//           stepName="Personal Info"
-//           validationSchema={validationSchemaStep1}
-//         >
-//           <div style={{ padding: '80px' }}>
-//             <InputField name="name" label="Full Name" variant={"outlined"} />
-//             <InputField name="email" label="Email Address" variant={"outlined"} />
-//             <InputField name="phone" label="Phone Number" variant={"outlined"} />
-//           </div>
-//         </FormStep>
-
-//         {/* Step 2: Business Info */}
-//         <FormStep
-//           stepName="Business Info"
-//           validationSchema={validationSchemaStep2}
-//         >
-//           <InputField name="companyName" label="Company Name" variant="outlined" />
-//           <InputField name="industry" label="Industry/Niche" variant="outlined" />
-//           <InputField name="yearsInBusiness" label="Years in Business" variant="outlined" />
-//           <InputField name="numberOfEmployees" label="Number of Employees" variant={"outlined"} />
-//           <InputField name="annualRevenue" label="Annual Revenue" variant={"outlined"} />
-//           <InputField name="geoLocation" label="Geographic Location" variant={"outlined"} />
-//         </FormStep>
-
-//         {/* Step 3: Business Questionnaire */}
-//         <FormStep
-//           stepName="Business Questionnaire"
-//           validationSchema={validationSchemaStep3}
-//         >
-//           <InputField name="productCount" label="Main products/services offered" variant={"outlined"} />
-//           <InputField name="performanceDetails" label="Current performance and profitability" variant={"outlined"} />
-//           <InputField name="challenges" label="Biggest challenges faced" variant={"outlined"} />
-//           <InputField name="vision" label="Vision for the future" variant={"outlined"} />
-//           <InputField name="goals" label="Short-term and long-term goals" variant={"outlined"} />
-//           <InputField name="achievements" label="Specific outcomes or achievements for success" variant={"outlined"} />
-//         </FormStep>
-//       </MultiStepForm>

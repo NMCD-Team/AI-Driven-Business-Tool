@@ -115,12 +115,12 @@ const Register = () => {
             Login
           </Link>
         </h2>
-        <button onClick={handleGoogleSignIn} className="btn w-56 mx-auto mt-4">
+        {/*<button onClick={handleGoogleSignIn} className="btn w-56 mx-auto mt-4">
           <span className="text-2xl flex items-center gap-2">
             <FcGoogle />
             <span>Register with Google</span>
           </span>
-        </button>
+        </button>*/}
       </div>
     </div>
   );

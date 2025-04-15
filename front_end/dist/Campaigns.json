@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "title": "Blankets and Warm Clothes Drive",
+    "image": "https://northboundgear.co/cdn/shop/articles/Screen_Shot_2022-03-22_at_14.08.05.png?v=1647954506",
+    "description": "This campaign is dedicated to providing blankets and warm clothes to families in Dhaka who struggle to stay warm during the winter season. The drive focuses on supporting underprivileged households with essential winter items.",
+    "status": "Ongoing",
+    "contactInfo": "info@winterhelp.org",
+    "division": "Barishal"
+  },
+  {
+    "id": 2,
+    "title": "Footwear for Rural Farmers",
+    "image": "https://media.istockphoto.com/id/1159843857/photo/cropped-view-of-multicultural-volunteers-unpacking-cardboard-boxes-with-clothes-and-footwear.jpg?s=1024x1024&w=is&k=20&c=s4jUXI7za8RvOfzNGTQtedSeoAeDL9WzLU-3mTcKgl8=",
+    "description": "Farmers in Barishal face cold and muddy conditions during winter, making durable footwear a necessity. This campaign aims to distribute sturdy shoes and socks to farming communities, helping them work safely and comfortably during the colder months.",
+    "status": "Ongoing",
+    "contactInfo": "contact@winterhelp.org",
+    "division": "Barishal"
+  },
+  {
+    "id": 3,
+    "title": "Sweaters for School Children",
+    "image": "https://media.istockphoto.com/id/184945773/photo/childrens-sports-team-collect-donations-for-disaster-relief-volunteers.jpg?s=1024x1024&w=is&k=20&c=k1SOp2DuvswNxt3Hq1GFDYfHTmT2y7XS_Gz3rfaORK0=",
+    "description": "Many children in Rajshahi attend school in freezing weather without proper winter clothing. This initiative provides high-quality sweaters to schoolchildren, ensuring they stay warm and healthy while focusing on their education.",
+    "status": "Completed",
+    "contactInfo": "support@winterhelp.org",
+    "division": "Rajshahi"
+  },
+  {
+    "id": 4,
+    "title": "Kids' Winter Clothing Donation",
+    "image": "https://st3.depositphotos.com/16122460/31738/i/450/depositphotos_317389898-stock-photo-volunteers-with-children-sorting-donation.jpg",
+    "description": "This campaign focuses on distributing winter jackets, woolen hats, and mittens to children in Rangpur. The goal is to provide adequate clothing for kids so they can stay safe from the harsh cold and enjoy outdoor activities.",
+    "status": "Ongoing",
+    "contactInfo": "donate@winterhelp.org",
+    "division": "Rajshahi"
+  },
+  {
+    "id": 5,
+    "title": "Winter Shoes for Daily Wage Workers",
+    "image": "https://soles4souls.org/wp-content/themes/yootheme/cache/34/Screenshot-at-Aug-18-14-52-35-34a42af8.webp",
+    "description": "Daily wage workers in Sylhet often lack proper footwear to protect themselves from the cold ground during winter. This campaign donates insulated shoes and socks to these hardworking individuals, ensuring their safety and comfort.",
+    "status": "Planned",
+    "contactInfo": "volunteer@winterhelp.org",
+    "division": "Sylhet"
+  },
+  {
+    "id": 6,
+    "title": "",
+    "image": "https://media.istockphoto.com/id/1396160859/photo/baby-and-child-clothes-toys-in-box-second-hand-apparel-idea-circular-fashion-donation-charity.jpg?s=612x612&w=0&k=20&c=cjKWIeNfmEPVdQUBABIWSdGAvm5SUoEdQYB02XOI35c=",
+    "description": "Children in coastal areas of Chattogram are vulnerable to chilly winds during winter. This campaign provides cozy sweaters and hoodies to kids, helping them stay warm and protected while attending school and playing outside.",
+    "status": "Ongoing",
+    "contactInfo": "help@winterhelp.org",
+    "division": "Chattogram"
+  },
+  {
+    "id": 7,
+    "title": "Winter Mini Food Pack",
+    "image": "https://www.shutterstock.com/image-photo/charity-donation-volunteering-concept-close-600nw-2143458979.jpg",
+    "description": "The Winter Mini Food Pack campaign aims to provide essential food items to vulnerable families during the harsh winter months. As temperatures drop, access to nutritious meals becomes a challenge for many underprivileged households, especially in rural and remote areas. Each food pack contains basic staples like rice, lentils, cooking oil, and seasonal dry fruits to ensure families have access to warm and healthy meals.",
+    "status": "Upcoming",
+    "contactInfo": "winteressentials@example.com",
+    "division": "Chattogram"
+  },
+  {
+    "id": 8,
+    "title": "Winter Regular Food Pack",
+    "image": "https://thumbs.dreamstime.com/z/food-donation-to-needy-providing-people-who-need-help-163400729.jpg",
+    "description": "Donate gently used winter boots to help people stay warm and dry during the cold winter months.",
+    "status": "Active",
+    "contactInfo": "winterboots@example.com",
+    "division": "Sylhet"
+  }
+]

@@ -21,7 +21,7 @@ const Navbar = () => {
         Home
       </Link>
 
-      <Link to="/landing-page" className="btn btn-ghost lg:text-base font-medium mr-2">
+      <Link to="/business-form" className="btn btn-ghost lg:text-base font-medium mr-2">
         Business Form
       </Link>
 
