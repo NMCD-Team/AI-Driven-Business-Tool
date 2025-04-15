@@ -9,11 +9,11 @@ const Home: React.FC = () => {
       <Banner />
 
       {/* How it works section */}
-      <HowIt />
+      {/*<HowIt />*/}
 
-      <div className="mt-auto text-center py-6 text-gray-500 text-sm">
+      {/* div className="mt-auto text-center py-6 text-gray-500 text-sm">
         NMCD.Inc. All rights reserved.
-      </div>
+      </div>*/}
     </div>
   );
 };

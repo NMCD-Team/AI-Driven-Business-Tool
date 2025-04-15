@@ -22,7 +22,7 @@ const Login = () => {
       .then(result => {
         setLoading(false);
         // Redirect to /landing-page after login
-        navigate('/landing-page');
+        navigate('/business-form');
       })
       .catch(err => {
         setLoading(false);
@@ -37,7 +37,7 @@ const Login = () => {
       .then(result => {
         setLoading(false);
         // Redirect to /landing-page after Google login
-        navigate('/landing-page');
+        navigate('/business-form');
       })
       .catch(err => {
         setLoading(false);
@@ -51,7 +51,7 @@ const Login = () => {
   };
 
   // Get redirect path if available
-  const from = location.state?.from?.pathname || "/landing-page";
+  const from = location.state?.from?.pathname || "/business-form";
 
   return (
     <div className="min-h-screen flex justify-center items-center">
@@ -111,9 +111,9 @@ const Login = () => {
             Register
           </Link>
         </h2>
-        <button onClick={handleGoogleSignIn} className="btn w-56 mx-auto mt-4" disabled={loading}>
+       {/*} <button onClick={handleGoogleSignIn} className="btn w-56 mx-auto mt-4" disabled={loading}>
           <span className="text-2xl"><FcGoogle /></span> {loading ? 'Signing in...' : 'Login with Google'}
-        </button>
+        </button>*/}
       </div>
     </div>
   );

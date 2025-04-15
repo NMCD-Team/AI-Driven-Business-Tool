@@ -1,49 +1,94 @@
 import React from "react";
-import { FaFacebook, FaYoutube } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa6";
+import { motion } from "framer-motion";
+import {
+  FaEnvelope,
+  FaPhone,
+  FaCalendarAlt,
+  FaInstagram,
+  FaLinkedin,
+} from "react-icons/fa";
 
-const Footer: React.FC = () => {
-  const currentYear: number = new Date().getFullYear();
-
+const Contact = () => {
   return (
-    <div className="pt-4 mx-4 md:mx-2">
-      <footer className="border-2 rounded-tr-xl rounded-tl-xl footer text-base-content p-10 max-w-6xl mx-auto">
-        <aside>
-          <img className="size-40" src="/assets/logo.png" alt="Logo" />
-        </aside>
-        <nav>
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold mb-4">Contact Us</h3>
-            <p className="text-sm">
-              📍 Address: 123 Test Street, Toronto, Ontario, Canada
-            </p>
-            <p className="text-sm">📧 Email: test@nmcd.com</p>
-            <p className="text-sm">📞 Phone: +123-456-7890</p>
-          </div>
-        </nav>
-        <nav>
-          <h6 className="footer-title">Social Media</h6>
-          <div className="flex gap-4">
-            <a className="link link-hover text-3xl" aria-label="YouTube">
-              <FaYoutube />
-            </a>
-            <a className="link link-hover text-3xl" aria-label="Facebook">
-              <FaFacebook />
-            </a>
-            <a className="link link-hover text-3xl" aria-label="Twitter">
-              <FaTwitter />
-            </a>
-          </div>
-        </nav>
-      </footer>
+    <div className="relative bg-[#000000] text-white py-20 px-6">
+      {/* Overlay background graphic, optional */}
+      <div className="absolute inset-0 opacity-10 bg-[url('/assets/pattern.svg')] bg-cover bg-center"></div>
 
-      <div className="border-x-2 max-w-6xl mx-auto text-center text-base-content p-4 fixed bottom-0 left-0 right-0 bg-white">
-        <aside>
-          <p>&copy; {currentYear} NMCD.Inc. All rights reserved.</p>
-        </aside>
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center text-[#FFE712] mb-12">Get in Touch</h2>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Email */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="bg-[#6D828F] hover:bg-[#9AA7B2] transition-colors duration-300 p-6 rounded-xl text-center shadow-lg"
+          >
+            <FaEnvelope className="text-[#FFE712] text-3xl mb-4 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">Email</h3>
+            <p className="text-sm break-words text-white">contact@nikkeishamoodie.ca</p>
+          </motion.div>
+
+          {/* Phone */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="bg-[#6D828F] hover:bg-[#9AA7B2] transition-colors duration-300 p-6 rounded-xl text-center shadow-lg"
+          >
+            <FaPhone className="text-[#FFE712] text-3xl mb-4 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">Phone</h3>
+            <p className="text-sm text-white">(647) 914-8873</p>
+          </motion.div>
+
+          {/* Scheduler */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="bg-[#6D828F] hover:bg-[#9AA7B2] transition-colors duration-300 p-6 rounded-xl text-center shadow-lg"
+          >
+            <FaCalendarAlt className="text-[#FFE712] text-3xl mb-4 mx-auto" />
+            <h3 className="text-xl font-semibold mb-2">Book a Session</h3>
+            <a
+              href="https://bit.ly/BuildADreamWithNikki"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#FFE712] text-sm underline"
+            >
+              bit.ly/BuildADreamWithNikki
+            </a>
+          </motion.div>
+        </div>
+
+        {/* Socials */}
+        <div className="mt-12 text-center">
+          <h3 className="text-lg font-semibold text-[#FFE712] mb-4">Follow Us</h3>
+          <div className="flex justify-center gap-8 text-3xl">
+            <a
+              href="https://www.instagram.com/nmcdinc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="text-white hover:text-[#FFE712] transition"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://www.linkedin.com/company/nmcd-inc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-white hover:text-[#FFE712] transition"
+            >
+              <FaLinkedin />
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Footer;
+export default Contact;
