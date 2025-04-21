@@ -23,10 +23,25 @@ Including another URLconf
 
 # backend/AI_Business_Tool/urls.py
 
-from django.contrib import admin
 from django.urls import path, include
+from django.contrib import admin
+from assessment import api  # Import from api.py
+
+from .views import (
+    BusinessAssessmentCreateView,
+    QuestionnaireCreateView,
+    UserReportsView,
+    UserProfileUpdateView
+)
+import sys
+print("sys.path:", sys.path)
 
 urlpatterns = [
+    path('api/analyze/', api.analyze, name='analyze'),  # Make sure this is correct
     path('admin/', admin.site.urls),
-    path('api/', include('apps.assessment.urls')),
+    path('api/', include('assessment.urls')),
+    path('assessment/', include('assessment.urls')),  # Include the assessment app's URLs
+
+    
 ]
+

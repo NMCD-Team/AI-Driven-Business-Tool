@@ -28,8 +28,12 @@ SECRET_KEY = 'django-insecure-74c!wgyn#@ojajjw=0ye#%#0)1jrvb*io_o8x#6@(45=fr3yg#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  # Best practice: store API keys in environment variables
+ANALYSIS_TYPES = ['market_position', 'growth_potential', 'swot']
+DEFAULT_ANALYSIS_TYPE = 'market_position'
+DEFAULT_OPENAI_MODEL = "gpt-3.5-turbo"  # Default model
 
 # Application definition
 
@@ -42,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'apps.assessment', 
+    'assessment',
+    'backend',
+    
 ]
 
 MIDDLEWARE = [
@@ -76,7 +82,8 @@ TEMPLATES = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True  # For development only
@@ -91,7 +98,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # Or just 'db.sqlite3' in older Django versions
     }
 }
 
@@ -136,3 +143,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from .local_settings import * # type: ignore
+except ImportError:
+    pass

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Paper, Typography } from '@mui/material';
+import { TextField, Button, Box, Paper, Typography, CircularProgress, Alert } from '@mui/material';
 import AnalysisResults from './AnalysisResults';
 import { AnalysisResult } from '../types/FormTypes';
 
@@ -47,44 +47,49 @@ const BusinessForm = () => {
     business_plan: '',
     business_goals: '',
     progress_tracking: '',
+    business_description: '' ,
 
     // Section 9 - Additional Information
     additional_info: '',
     specific_questions: ''
   });
-
+  
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null); 
+  
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);  // Set loading state
+    setError(null);  
+
     try {
-      console.log('Submitting data:', JSON.stringify(formData, null, 2));
-      
       const response = await fetch('http://localhost:8000/api/analyze/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), 
       });
 
-      console.log('Response status:', response.status);
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Error response:', errorText);
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json();
+        const errorMessage = errorData?.error || response.statusText;
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
-      console.log('Response data:', JSON.stringify(data, null, 2));
-      setAnalysisResult(data);
-      
+      setAnalysisResult(data.analysis_results); // Access analysis_results directly (or whatever your backend returns)
+
     } catch (error) {
-      console.error('Submission error:', error);
-      alert('Error submitting form. Please make sure the backend server is running.');
+      console.error('Error:', error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
-};
+  };
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -235,30 +240,6 @@ const BusinessForm = () => {
             onChange={handleChange}
           />
           <Typography variant="h5">
-            Section 5 of 9 - Market Research Analysis
-          </Typography>        
-          <TextField
-            required
-            name="market_research"
-            label="Market Research"
-            value={formData.market_research}
-            onChange={handleChange}
-          />
-          <TextField
-            required
-            name="target_customers"
-            label="Target Customers"
-            value={formData.target_customers}
-            onChange={handleChange}
-          />
-          <TextField
-            required
-            name="main_competitors"
-            label="Main Competitors"
-            value={formData.main_competitors}
-            onChange={handleChange}
-          />
-          <Typography variant="h5">
             Section 5 of 9 - Brand Research
           </Typography>
           <TextField
@@ -308,7 +289,7 @@ const BusinessForm = () => {
             onChange={handleChange}
           />
 
-<Typography variant="h5">
+          <Typography variant="h5">
             Section 7 of 9 - Operations Setup
           </Typography>  
           <TextField
@@ -357,22 +338,40 @@ const BusinessForm = () => {
             value={formData.progress_tracking}
             onChange={handleChange}
           />
+          <TextField
+            required
+            multiline
+            rows={4}
+            name="business_description"
+            label="Business Description"
+            value={formData.business_description}
+            onChange={handleChange}
+          />
 
-          <Button 
-            type="submit" 
-            variant="contained" 
-            color="primary" 
-            size="large"
-            sx={{ mt: 2 }}
-          >
-            Submit Assessment
-          </Button>
+
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            {isLoading && <CircularProgress />} {/* Loading indicator */}
+            {!isLoading && (
+              <Button type="submit" variant="contained" color="primary" size="large">
+                Submit Assessment
+              </Button>
+            )}
+          </Box>
+          {error && <Alert severity="error">{error}</Alert>} {/* Error display */}
         </Box>
       </form>
-      // Remove the inline results section and replace it with:
+
       {analysisResult && <AnalysisResults results={analysisResult} />}
     </Paper>
   );
 };
 
 export default BusinessForm;
+
+function setIsLoading(_arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+function setError(_arg0: null) {
+  throw new Error('Function not implemented.');
+}
+
