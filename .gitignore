@@ -6,9 +6,6 @@ backend/*.pyc
 backend/db.sqlite3
 backend/backend/local_settings.py
 
-# Frontend
-front_end/.env
-
 
 # General
 .vscode/
