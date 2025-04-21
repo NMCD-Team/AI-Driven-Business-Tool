@@ -17,6 +17,7 @@ from .serializers import (
     UserProfileSerializer
 )
 
+client = openai.OpenAI()
 # Create a Business Assessment
 class BusinessAssessmentCreateView(generics.CreateAPIView):
     queryset = BusinessAssessment.objects.all()
@@ -70,11 +71,12 @@ def analyze(request):
 
 
         try:
-            response = openai.completions.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",  # Or a suitable model like "gpt-4"
                 messages=[
                     {"role": "system", "content": "You are a helpful business analyst."},  # Optional
-                    {"role": "user", "content": prompt}  # Your prompt goes here
+                    {"role": "user", "content": "Analyze the market position and growth potential for this assessment"
+}  # Your prompt goes here
                 ],
                 max_tokens=500,  # Adjust as needed
                 n=1,
