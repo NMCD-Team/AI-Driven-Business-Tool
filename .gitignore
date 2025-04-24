@@ -15,4 +15,4 @@ __pycache__/
 *.py[cod]
 *$py.class
 node_modules
-AI-Driven-Business-Tool/.env
+.env
