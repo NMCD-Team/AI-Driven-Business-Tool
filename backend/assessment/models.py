@@ -9,21 +9,22 @@ class Questionnaire(models.Model):
     openai_model = models.CharField(max_length=50, default=DEFAULT_OPENAI_MODEL)
     analysis_type = models.CharField(max_length=50, choices=[(t, t) for t in ANALYSIS_TYPES], default=DEFAULT_ANALYSIS_TYPE)
     assessment = models.ForeignKey('BusinessAssessment', on_delete=models.CASCADE, related_name='questionnaires', null=True, blank=True)  # Correct reference
-   
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f"Questionnaire for {self.company_name or 'Unnamed Company'}"
  
 
 class BusinessAssessment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assessments', null=True)  # Allow null temporarily
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
     name = models.CharField(max_length=255, default='Default Assessment')    
     description = models.TextField(blank=True)
     email = models.EmailField()
     full_name = models.CharField(max_length=255)
     company_name = models.CharField(max_length=255)
     industry_niche = models.CharField(max_length=255)
-    years_in_business = models.PositiveIntegerField(null=True, blank=True)  # Changed to IntegerField
-    number_of_employees = models.PositiveIntegerField(null=True, blank=True) # Changed to IntegerField
+    years_in_business = models.PositiveIntegerField(null=True, blank=True)  
+    number_of_employees = models.PositiveIntegerField(null=True, blank=True) 
     annual_revenue = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True) 
     geographic_locations = models.TextField(blank=True)
     
@@ -56,9 +57,9 @@ class BusinessAssessment(models.Model):
     business_plan = models.TextField()
     business_goals = models.TextField()
     progress_tracking = models.TextField()
-    brand_identity = models.TextField(blank=True, null=True)  # Add this
-    business_description = models.TextField(blank=True, null=True) # Correct name
-    main_competitors = models.TextField(blank=True, null=True) # Add this
+    brand_identity = models.TextField(blank=True, null=True) 
+    business_description = models.TextField(blank=True, null=True) 
+    main_competitors = models.TextField(blank=True, null=True) 
     specific_outcomes = models.TextField(blank=True, null=True) 
     
     # Additional Information
@@ -72,29 +73,42 @@ class BusinessAssessment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"BusinessAssessment for {self.name} by {self.user.username}"  # More informative
+        return f"BusinessAssessment for {self.name} by {self.user.username}" 
 
     class Meta:
         ordering = ['-created_at']
 
 
 class Report(models.Model):
-    assessment = models.ForeignKey('BusinessAssessment', on_delete=models.CASCADE, related_name='reports')
+    assessment = models.ForeignKey('BusinessAssessment', on_delete=models.CASCADE, null=True, blank=True) 
     content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)  # Add created_at field
-    updated_at = models.DateTimeField(auto_now=True)  # Add updated_at field
+    created_at = models.DateTimeField(auto_now_add=True)  
+    updated_at = models.DateTimeField(auto_now=True)  
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
+    analysis = models.TextField()
+    product_suggestions = models.TextField()
+    growth_potential = models.TextField(null=True, blank=True)
+    operation_insight = models.TextField(null=True, blank=True)
+    strategic_recommendation = models.TextField(null=True, blank=True)
+    generated_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Report for {self.assessment.name}"  # Improved __str__ method
+        return f"Report for {self.assessment.name}"  
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bio = models.TextField(blank=True)
-    company = models.CharField(max_length=255, default='Default Company')  # Required field with default
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)
+    company = models.CharField(max_length=255, default='Default Company')  
     website = models.URLField(blank=True)
     location = models.CharField(max_length=255, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)  # Add profile picture field
-    # Add other fields as needed (e.g., phone number, social media links, etc.)
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)  
+  
 
     def __str__(self):
         return f"Profile for {self.user.username}"
+    
+

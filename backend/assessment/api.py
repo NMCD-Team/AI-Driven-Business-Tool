@@ -1,4 +1,3 @@
-# assessment/api.py
 import os
 from django.shortcuts import get_object_or_404
 import openai
@@ -7,9 +6,11 @@ from rest_framework.decorators import api_view
 from rest_framework import status  # Correct import
 from .models import BusinessAssessment
 from .serializers import BusinessAssessmentSerializer
+from openai import OpenAI
+from .utils import create_narrative_text
 
 
-@api_view(['GET'])  # Use GET for testing
+@api_view(['GET']) 
 def test_connection(request):
     return Response({"message": "Connection successful!"})
 
@@ -18,7 +19,7 @@ def analyze(request):
     try:
         data = request.data
         assessment_id = data.get('id')
-        if assessment_id:  # If 'id' is provided, attempt update
+        if assessment_id:  
             try:
                 assessment = BusinessAssessment.objects.get(id=assessment_id)
                 for field_name, value in data.items():
@@ -28,37 +29,64 @@ def analyze(request):
                 created = False
             except BusinessAssessment.DoesNotExist:
                 return Response({"error": "Assessment not found"}, status=status.HTTP_404_NOT_FOUND)
-        else:  # If no 'id', create new
+        else:  
             data_copy = data.copy()  # Create a copy to avoid modifying the original request data
             if 'businessDescription' in data_copy:  # Check if the camelCase key exists
                 data_copy['business_description'] = data_copy.pop('businessDescription') # Convert to snake_case
             assessment = BusinessAssessment.objects.create(**data_copy)  # Use the modified data
             created = True
 
-        openai.api_key = os.environ.get("OPENAI_API_KEY")
-        prompt = f"Analyze the following business information:\n{assessment.business_description}\n\nConsider these additional details:\n{assessment.additional_info}\n\nAnswer these specific questions:\n{assessment.specific_questions}"
-        print(f"Prompt being sent to OpenAI: {prompt}") # Crucial debugging step
+            openai.api_key = os.environ.get("OPENAI_API_KEY") 
+            client = OpenAI()
+            business_text = create_narrative_text(data)
 
-        response = openai.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=500,
-            temperature=0.7,
-        )
+            prompt = f"""
+            Analyze the following business information:
 
-        analysis_results = response.choices[0].message['content'].strip() # Access content correctly
-        assessment.analysis_results = analysis_results
-        assessment.save()
+            {business_text}
 
-        analysis_results = response.choices[0].message.content.strip()
+            Using concrete estimates and action-oriented language, provide your response under these exact headings:
 
-        # Update the assessment with the analysis results
-        assessment.analysis_results = analysis_results
-        assessment.save()
+            Market Position:
+            -Provide a competitor overview and your best estimate of market share (e.g., “~12% of regional off-grid solar market”).
+            - Call out any missing data and suggest how to fill it.
 
-        serializer = BusinessAssessmentSerializer(assessment)  # Serialize the updated assessment
+            Growth Potential:
+            - List 2–3 opportunities with numeric clues (e.g., “inbound inquiries +30% YoY”).
+            - List 2–3 risks with timeframes or probabilities (e.g., “supply delays up to 8 weeks”).
+            - Give 1–2 growth indicators.
+
+            Operational Insights:
+            - Recommend 2–3 process improvements with target reductions (e.g., “reduce supply-chain delays by 20%”).
+            - Identify 1–2 resource gaps.
+            - Suggest 1 efficiency metric to track.
+
+            Strategic Recommendations:
+            - Give 5 concrete steps, each starting with a verb, each tagged “Priority: High/Medium/Low”.
+            """
+
+
+
+            print("Prompt being sent to OpenAI:", prompt)
+
+            completion = client.chat.completions.create(
+                model="gpt-3.5-turbo",  
+                messages=[
+                    {"role": "system", "content": "You are a helpful business analyst."},
+                    {"role": "user", "content": prompt},
+                ],
+                max_tokens=500,
+                temperature=0.7,
+            )
+            print("GPT raw response:\n", completion)
+
+            analysis_results = completion.choices[0].message.content.strip()
+            assessment.analysis_results = analysis_results
+            assessment.save()
+
+        serializer = BusinessAssessmentSerializer(assessment) 
         return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
     except Exception as e:
-        print(f"Error in analyze view: {e}")  # Print the error to the console for debugging
+        print(f"Error in analyze view: {e}")  
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

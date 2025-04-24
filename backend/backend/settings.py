@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,12 +33,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  # Best practice: store API keys in environment variables
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  
 ANALYSIS_TYPES = ['market_position', 'growth_potential', 'swot']
 DEFAULT_ANALYSIS_TYPE = 'market_position'
-DEFAULT_OPENAI_MODEL = "gpt-3.5-turbo"  # Default model
+DEFAULT_OPENAI_MODEL = "gpt-3.5-turbo" 
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',

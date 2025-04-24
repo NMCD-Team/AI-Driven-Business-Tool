@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
             name='Questionnaire',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('submitted_at', models.DateTimeField(auto_now_add=True)),
+                ('submitted_at', models.IntegerField()),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -41,12 +41,11 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('analysis', models.TextField()),
+                ('generated_at', models.IntegerField()),
                 ('product_suggestions', models.TextField()),
                 ('growth_potential', models.TextField(blank=True, null=True)),
                 ('operation_insight', models.TextField(blank=True, null=True)),
                 ('strategic_recommendation', models.TextField(blank=True, null=True)),
-                ('generated_at', models.DateTimeField(auto_now_add=True)),
-                ('questionnaire', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='backend.questionnaire')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -59,5 +58,11 @@ class Migration(migrations.Migration):
                 ('phone_number', models.CharField(max_length=20)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
+        ),
+        migrations.AddField(
+            model_name='report',
+            name='questionnaire',
+            field=models.ForeignKey(null=True, blank=True, on_delete=django.db.models.deletion.CASCADE, to='assessment.questionnaire'),  # Removed preserve_default
+            preserve_default=False, 
         ),
     ]

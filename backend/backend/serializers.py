@@ -7,6 +7,7 @@ from assessment.models import (
     BusinessAssessment
 )
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
