@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./Routes/Router.js"; // Import your routing configuration
-import Provider from "./Provider/Provider.jsx"; // Global context provider for state management
+import Provider from "./Provider/Provider.tsx"; // Global context provider for state management
 import "react-datepicker/dist/react-datepicker.css"; // Import any additional CSS
 import { Toaster } from "react-hot-toast"; // For toast notifications
 import './fonts/fonts.css';

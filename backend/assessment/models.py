@@ -1,22 +1,22 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User 
 from backend.settings import DEFAULT_ANALYSIS_TYPE, ANALYSIS_TYPES, DEFAULT_OPENAI_MODEL
 
 
 class Questionnaire(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questionnaires', null=True, blank=True) # Link to User
-    openai_api_key = models.CharField(max_length=255, blank=True) # User can override if needed
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='questionnaires', null=True, blank=True) 
+    openai_api_key = models.CharField(max_length=255, blank=True) 
     openai_model = models.CharField(max_length=50, default=DEFAULT_OPENAI_MODEL)
     analysis_type = models.CharField(max_length=50, choices=[(t, t) for t in ANALYSIS_TYPES], default=DEFAULT_ANALYSIS_TYPE)
     assessment = models.ForeignKey('BusinessAssessment', on_delete=models.CASCADE, related_name='questionnaires', null=True, blank=True)  # Correct reference
-    submitted_at = models.DateTimeField(auto_now_add=True)
-
+   
     def __str__(self):
         return f"Questionnaire for {self.company_name or 'Unnamed Company'}"
  
 
 class BusinessAssessment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assessments', null=True)  
     name = models.CharField(max_length=255, default='Default Assessment')    
     description = models.TextField(blank=True)
     email = models.EmailField()
@@ -57,7 +57,7 @@ class BusinessAssessment(models.Model):
     business_plan = models.TextField()
     business_goals = models.TextField()
     progress_tracking = models.TextField()
-    brand_identity = models.TextField(blank=True, null=True) 
+    brand_identity = models.TextField(blank=True, null=True)  
     business_description = models.TextField(blank=True, null=True) 
     main_competitors = models.TextField(blank=True, null=True) 
     specific_outcomes = models.TextField(blank=True, null=True) 
@@ -73,42 +73,31 @@ class BusinessAssessment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"BusinessAssessment for {self.name} by {self.user.username}" 
+        return f"BusinessAssessment for {self.name} by {self.user.username}"  
 
     class Meta:
         ordering = ['-created_at']
 
 
 class Report(models.Model):
-    assessment = models.ForeignKey('BusinessAssessment', on_delete=models.CASCADE, null=True, blank=True) 
+    assessment = models.ForeignKey('BusinessAssessment', on_delete=models.CASCADE, related_name='reports')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)  
     updated_at = models.DateTimeField(auto_now=True)  
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE)
-    analysis = models.TextField()
-    product_suggestions = models.TextField()
-    growth_potential = models.TextField(null=True, blank=True)
-    operation_insight = models.TextField(null=True, blank=True)
-    strategic_recommendation = models.TextField(null=True, blank=True)
-    generated_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reports', null=True, blank=True)    
+    business_description = models.TextField(default="No description provided")
 
     def __str__(self):
         return f"Report for {self.assessment.name}"  
-    
+
+ 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     bio = models.TextField(blank=True)
-    name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=20)
     company = models.CharField(max_length=255, default='Default Company')  
     website = models.URLField(blank=True)
     location = models.CharField(max_length=255, blank=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)  
-  
 
     def __str__(self):
         return f"Profile for {self.user.username}"
-    
-

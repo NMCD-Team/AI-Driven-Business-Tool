@@ -1,63 +1,66 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../Provider/Provider";
+import React, { useContext, useState, FormEvent, MouseEvent } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { AuthContext, AuthContextType } from "../Provider/Provider";
 import toast from "react-hot-toast";
 import { IoMdEyeOff } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 
-const Register = () => {
-  const { userRegister, UpdateUserProfile, userGoogleLogin } =
-    useContext(AuthContext);
+const Register: React.FC = () => {
+  const { userRegister, UpdateUserProfile, userGoogleLogin } = useContext(
+    AuthContext
+  ) as AuthContextType;
+  
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const handleShowPass = () => setShow(!show);
-  const handleSubmit = (e) => {
+  const location = useLocation();
+  const [show, setShow] = useState<boolean>(false);
+  
+  const handleShowPass = (): void => setShow(!show);
+  
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    // get from data
-    const from = new FormData(e.target);
-    const name = from.get("name");
-    const photo = from.get("photo");
-    const email = from.get("email");
-    const password = from.get("password");
+    // get form data
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const name = formData.get("name") as string;
+    const photo = formData.get("photo") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     userRegister(email, password)
-      .then((result) => {
+      .then(() => {
         navigate('/');
         UpdateUserProfile({ displayName: name, photoURL: photo })
-          .then((result) => {
-            // console.log(result);
+          .then(() => {
+            // Success handling if needed
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             toast.error(error.message);
           });
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         toast.error(err.message);
-        // console.log(err.message);
       });
-
   };
 
-  const handleGoogleSignIn = ()=>{
+  const handleGoogleSignIn = (): void => {
     userGoogleLogin()
-    .then(result =>{
-        navigate(location?.state ? location.state : '/')
-        // console.log(result.user)
-    })
-    .catch(err =>{
-        toast.error(err.message)
-        // console.log(err.message)
-    })
-}
+      .then(() => {
+        navigate(location?.state ? location.state : '/');
+      })
+      .catch((err: Error) => {
+        toast.error(err.message);
+      });
+  };
+
   return (
-    <div className="min-h-screen flex justify-center my-10 items-center ">
+    <div className="min-h-screen flex justify-center my-10 items-center">
       <div className="card bg-base-100 w-full md:max-w-lg max-w-sm rounded-lg py-10 shrink-0 shadow-2xl shadow-sky-300 border border-sky-200">
         <h2 className="text-2xl font-semibold text-center">
           Register your account
         </h2>
         <form onSubmit={handleSubmit} className="card-body">
-          <div className="form-control ">
+          <div className="form-control">
             <label className="label" htmlFor="name">
               <span className="label-text">Your Name</span>
             </label>
@@ -70,8 +73,8 @@ const Register = () => {
               required
             />
           </div>
-        
-          <div className="form-control ">
+          
+          <div className="form-control">
             <label className="label" htmlFor="email">
               <span className="label-text">Email</span>
             </label>
@@ -104,13 +107,13 @@ const Register = () => {
             </button>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-ghost bg-sky-500  text-white hover:text-slate-950">
+            <button className="btn btn-ghost bg-sky-500 text-white hover:text-slate-950">
               Register
             </button>
           </div>
         </form>
         <h2 className="font-normal text-center">
-          Already Have an account ? 
+          Already Have an account?{" "}
           <Link className="text-sky-500" to={"/auth/login"}>
             Login
           </Link>

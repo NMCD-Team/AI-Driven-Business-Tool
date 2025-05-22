@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../Provider/Provider";
 import React from "react";
+import { AuthContext } from "../Provider/Provider";
 
 // Define the expected user type
 interface User {

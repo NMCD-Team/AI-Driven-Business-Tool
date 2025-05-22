@@ -1,12 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from assessment.models import (
-    UserProfile,
-    Questionnaire,
-    Report,
-    BusinessAssessment
-)
-
+from assessment.models import UserProfile, Questionnaire, Report, BusinessAssessment
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email']
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = UserSerializer(read_only=True) 
 
     class Meta:
         model = UserProfile
@@ -25,12 +19,12 @@ class QuestionnaireSerializer(serializers.ModelSerializer):
         model = Questionnaire
         fields = ['id', 'user', 'submitted_at']
 
-class ReportSerializer(serializers.ModelSerializer):
+class DetailedReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = [
             'id',
-            'user',
+            'user',  
             'questionnaire',
             'analysis',
             'product_suggestions',
@@ -56,7 +50,7 @@ class BusinessAssessmentSerializer(serializers.ModelSerializer):
         ]
 
 class AnalyzeSerializer(serializers.Serializer):
-    assessment_id = serializers.IntegerField(required=True) 
-    focus_areas = serializers.ListField(child=serializers.CharField())
-    description = serializers.CharField(allow_blank=True)
-    num_suggestions = serializers.IntegerField()
+    assessment_id = serializers.IntegerField(required=True)
+    focus_areas = serializers.ListField(child=serializers.CharField(allow_blank=True), required=False)  
+    description = serializers.CharField(allow_blank=True, required=False)  
+    num_suggestions = serializers.IntegerField(required=False, default=1)  

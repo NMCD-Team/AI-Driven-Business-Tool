@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import BusinessAssessment, Questionnaire, Report
 from django.contrib.auth.models import User
 
+
 class AssessmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessAssessment
@@ -31,3 +32,4 @@ class ReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Report
         fields = '__all__'
+

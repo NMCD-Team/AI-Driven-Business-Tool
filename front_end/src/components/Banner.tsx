@@ -3,11 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/Provider";
 import Slider from "./Slider";
 
+// Define the interface for what we're using from AuthContext
+interface AuthContextType {
+  user: {
+    email?: string;
+    // Add other user properties you might need
+  } | null;
+}
+
 const Banner: React.FC = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext) as AuthContextType;
 
-  const handleStartAssessment = () => {
+  const handleStartAssessment = (): void => {
     if (user?.email) {
       navigate("/business-form");
     } else {
@@ -29,7 +37,7 @@ const Banner: React.FC = () => {
         <p className="md:text-base text-sm font-poppins text-[#6D828F] leading-6">
           Welcome to the Business Assessment Tool. <br />
           Take the guesswork out of growing your business. <br /><br />
-          NMCD Inc.’s Business Assessment Tool is designed to give entrepreneurs
+          NMCD Inc.'s Business Assessment Tool is designed to give entrepreneurs
           and small business owners a quick snapshot of where they currently
           stand—and what areas may need attention. Based on your responses,
           you'll receive a free personalized summary* highlighting key focus

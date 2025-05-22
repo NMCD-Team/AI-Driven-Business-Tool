@@ -3,14 +3,20 @@ import { AuthContext } from "../Provider/Provider";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
+// Define the interface for what we're using from AuthContext
+interface AuthContextType {
+  userForgePassword: (email: string) => Promise<any>;
+  email?: string;
+}
+
 const ForgetPass: React.FC = () => {
-  const { userForgePassword, email } = useContext(AuthContext);
+  const { userForgePassword, email } = useContext(AuthContext) as AuthContextType;
   const navigate = useNavigate();
 
-  const handleForm = (e: FormEvent<HTMLFormElement>) => {
+  const handleForm = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const emailInput = form.inputEmail as HTMLInputElement;
+    const form = e.target as HTMLFormElement;
+    const emailInput = form.elements.namedItem('inputEmail') as HTMLInputElement;
     const emailValue = emailInput.value;
 
     userForgePassword(emailValue)
