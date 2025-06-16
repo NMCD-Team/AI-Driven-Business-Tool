@@ -1,0 +1,19 @@
+# Backend
+backend/__pycache__/
+backend/*.pyc
+backend/db.sqlite3
+backend/backend/local_settings.py
+
+
+# General
+.vscode/
+.idea/
+*.log
+venv/
+
+__pycache__/
+*.py[cod]
+*$py.class
+node_modules
+.env
+.env

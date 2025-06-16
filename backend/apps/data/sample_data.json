@@ -1,0 +1,41 @@
+{
+    "sample_assessments": [
+      {
+        "email": "sample@business.com",
+        "full_name": "John Smith",
+        "company_name": "Sample Business LLC",
+        "industry_niche": "Technology Consulting",
+        "years_in_business": "5",
+        "number_of_employees": "10-50",
+        "annual_revenue": "$1M-$5M",
+        "geographic_locations": "New York, London",
+        
+        "main_products": "Business consulting services, Software development, Digital transformation",
+        "current_performance": "Growing steadily with 20% year-over-year revenue increase",
+        "biggest_challenges": "Scaling operations while maintaining quality, Finding skilled talent",
+        
+        "business_vision": "Become a leading digital transformation consultancy in North America",
+        "primary_goals": "Expand service offerings, Double client base in next 2 years",
+        "success_indicators": "Client retention rate, Revenue growth, Team size",
+        
+        "market_research": "Regular industry analysis shows growing demand for digital transformation services",
+        "target_customers": "Mid-sized businesses in healthcare and finance sectors",
+        "competitors": "Major consulting firms, Regional technology consultancies",
+        
+        "current_brand_identity": "Innovative, reliable technology partner",
+        "brand_values": "Excellence, Innovation, Client Success",
+        "brand_assets": "Modern logo, Professional website, Case studies",
+        
+        "organizational_structure": "Flat hierarchy with project-based teams",
+        "operations_management": "Agile methodology, Weekly team meetings",
+        "operational_challenges": "Project scheduling, Resource allocation",
+        
+        "business_plan": "Detailed 3-year growth strategy focusing on market expansion",
+        "business_goals": "Enter new markets, Develop proprietary tools",
+        "progress_tracking": "Monthly KPI reviews, Quarterly strategic assessments",
+        
+        "additional_info": "Looking to implement new project management system",
+        "specific_questions": "How to optimize remote team collaboration?"
+      }
+    ]
+  }

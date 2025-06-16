@@ -1,0 +1,15 @@
+Django>=4.0.0
+djangorestframework
+psycopg2-binary
+spacy>=3.0.0
+pandas
+numpy
+python-dotenv
+pytest
+pytest-django
+
+Django==4.2.7
+djangorestframework==3.14.0
+django-cors-headers==4.3.0
+psycopg2-binary==2.9.9
+spacy==3.7.2
