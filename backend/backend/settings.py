@@ -144,9 +144,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'southendpalletworks@gmail.com'
-EMAIL_HOST_PASSWORD = 'uyjudxvjvggktovn'
-DEFAULT_FROM_EMAIL = 'NMCD Inc. southendpalletworks@gmail.com'
+EMAIL_HOST_USER = 'contact@nikkeishamoodie.ca'
+EMAIL_HOST_PASSWORD = 'pjpmhfvwhqzvcymg'
+DEFAULT_FROM_EMAIL = 'NMCD Inc. contact@nikkeishamoodie.ca'
 FRONTEND_URL = 'http://localhost:3000' 
 
 
