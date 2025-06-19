@@ -4,7 +4,7 @@ services:
   - type: web
     name: ai-business-tool-backend
     env: python
-    plan: hobby  
+    plan: starter 
     region: ohio
     buildCommand: |
       pip install -r requirements.txt
@@ -61,6 +61,6 @@ services:
 # PostgreSQL Database
 databases:
   - name: ai-business-db
-    plan: hobby
+    plan: starter
     databaseName: ai_business_db
     user: ai_business_user
