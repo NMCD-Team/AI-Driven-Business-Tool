@@ -4,8 +4,8 @@ services:
   - type: web
     name: ai-business-tool-backend
     env: python
-    plan: free  
-    region: toronto
+    plan: hobby  
+    region: ohio
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
@@ -61,6 +61,6 @@ services:
 # PostgreSQL Database
 databases:
   - name: ai-business-db
-    plan: free  
+    plan: hobby
     databaseName: ai_business_db
     user: ai_business_user
