@@ -1,3 +1,4 @@
+--only-binary :all:
 gunicorn==23.0.0
 packaging==25.0
 Django>=4.0.0
