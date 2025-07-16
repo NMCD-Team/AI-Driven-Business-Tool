@@ -7,7 +7,7 @@ numpy
 python-dotenv
 pytest
 pytest-django
-
+blis==0.7.11
 Django==4.2.7
 djangorestframework==3.14.0
 django-cors-headers==4.3.0
