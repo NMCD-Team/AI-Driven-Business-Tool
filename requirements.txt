@@ -3,7 +3,6 @@ packaging==25.0
 Django>=4.0.0
 djangorestframework
 psycopg2-binary
-spacy>=3.0.0
 pandas
 numpy
 python-dotenv
