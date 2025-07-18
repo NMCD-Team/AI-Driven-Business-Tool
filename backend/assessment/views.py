@@ -7,7 +7,6 @@ from django.http import JsonResponse
 import openai
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from openai import OpenAI
 from django.conf import settings
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, status
@@ -27,8 +26,8 @@ from .serializers import (
 )
 from .utils import create_narrative_text 
 
+# Set OpenAI API key
 openai.api_key = settings.OPENAI_API_KEY
-
 
 logger = logging.getLogger(__name__)
 
@@ -107,7 +106,9 @@ class AnalyzeView(APIView):
                 logger.error("OpenAI API key missing in environment variables")
                 return Response({"error": "OpenAI API key configuration error."}, status=status.HTTP_400_BAD_REQUEST)
             
-            client = OpenAI(api_key=openai_api_key)
+            # Set the API key (if not already set globally)
+            openai.api_key = openai_api_key
+            
             business_text = create_narrative_text(request.data)
 
             prompt = f"""
@@ -137,7 +138,8 @@ class AnalyzeView(APIView):
 
             logger.info(f"Sending prompt to OpenAI for assessment {assessment.id}...")
 
-            completion = client.chat.completions.create(
+            # Use the old OpenAI syntax
+            completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "You are a helpful business analyst."},
@@ -151,7 +153,6 @@ class AnalyzeView(APIView):
             if not analysis_results:
                 logger.warning(f"OpenAI returned empty content for assessment {assessment.id}")
                 analysis_results = "[Analysis generation failed or returned empty]"
-
 
             if hasattr(assessment, 'analysis_results'):
                 assessment.analysis_results = analysis_results
@@ -211,7 +212,7 @@ class AnalyzeView(APIView):
                 "analysis_results": analysis_results,
             }, status=status.HTTP_201_CREATED)
 
-        except openai.APIError as e:
+        except openai.error.APIError as e:
             logger.error(f"OpenAI API Error during analysis: {e}", exc_info=True)
             return Response({"error": f"OpenAI Service Error: {str(e)}"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
         except ValueError as e:
