@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-74c!wgyn#@ojajjw=0ye#%#0)1jrvb*io_o8x#6@(45=fr3yg#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','.onrender.com', 'ai-driven-business-tool.onrender.com',]
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")  # Best practice: store API keys in environment variables
 ANALYSIS_TYPES = ['market_position', 'growth_potential', 'swot']
 DEFAULT_ANALYSIS_TYPE = 'market_position'
@@ -114,6 +114,7 @@ TEMPLATES = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    "https://ai-driven-business-tool.onrender.com",
     "http://localhost:8000",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
