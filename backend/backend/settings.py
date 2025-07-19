@@ -9,10 +9,11 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import dj_database_url
 from datetime import timedelta
 from pathlib import Path
 import os
+
 
 from dotenv import load_dotenv
 load_dotenv() 
@@ -157,7 +158,23 @@ FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://your-frontend-domain.com'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {}
+if 'DATABASE_URL' in os.environ:
+    # Production database from Render
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.environ.get('DATABASE_URL'),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    # Development database (fallback)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
