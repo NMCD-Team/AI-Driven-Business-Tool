@@ -1,29 +1,20 @@
-from django.urls import path
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from . import views
+from django.contrib import admin
+from django.urls import path, include
+from django.http import JsonResponse
 
-@api_view(['GET'])
-def api_root(request):
-    return Response({
-        "message": "AI Business Tool API is running!",
-        "version": "1.0",
+def root_view(request):
+    return JsonResponse({
+        "message": "AI-Driven Business Tool API",
+        "version": "1.0.0",
         "endpoints": {
-            "authentication": {
-                "login": "/api/token/",
-                "refresh": "/api/token/refresh/",
-                "token_auth": "/api/token-auth/"
-            },
-            "business": {
-                "analyze": "/api/analyze/",
-                "reports": "/api/reports/{report_id}/"
-            }
-        },
-        "status": "operational"
+            "api": "/api/",
+            "admin": "/admin/",
+        }
     })
 
 urlpatterns = [
-    path('', api_root, name='api-root'),  
-    path('analyze/', views.AnalyzeView.as_view(), name='analyze'),
-    path('reports/<int:report_id>/', views.ReportDetailView.as_view(), name='report_detail'),
+    path('', root_view, name='root'),
+    path('admin/', admin.site.urls),
+    path('api/', include('assessment.urls')),  # Include assessment.urls, not api.urls
+    path('api/token/', include('your_auth_app.urls')),  # If you have separate auth URLs
 ]
