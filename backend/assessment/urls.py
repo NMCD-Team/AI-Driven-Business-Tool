@@ -15,6 +15,5 @@ def root_view(request):
 urlpatterns = [
     path('', root_view, name='root'),
     path('admin/', admin.site.urls),
-    path('api/', include('assessment.urls')),  # Include assessment.urls, not api.urls
-    path('api/token/', include('your_auth_app.urls')),  # If you have separate auth URLs
+    path('api/', include('assessment.urls')),  
 ]
