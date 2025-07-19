@@ -168,13 +168,17 @@ if 'DATABASE_URL' in os.environ:
         )
     }
 else:
-    # Development database (fallback)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+    # Development database - try local_settings first
+    try:
+        from .local_settings import DATABASES
+    except ImportError:
+        # Fallback to SQLite if no local_settings
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
         }
-    }
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -228,7 +232,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-try:
-    from .local_settings import * 
-except ImportError:
-    pass
