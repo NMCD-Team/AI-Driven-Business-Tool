@@ -158,27 +158,27 @@ FRONTEND_URL = os.environ.get('FRONTEND_URL', 'https://your-frontend-domain.com'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if 'DATABASE_URL' in os.environ:
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
+if DATABASE_URL:
     # Production database from Render
     DATABASES = {
         'default': dj_database_url.parse(
-            os.environ.get('DATABASE_URL'),
+            DATABASE_URL,
             conn_max_age=600,
             conn_health_checks=True,
         )
     }
+    print(f"Using production database: {DATABASE_URL[:20]}...")  # Debug
 else:
-    # Development database - try local_settings first
-    try:
-        from .local_settings import DATABASES
-    except ImportError:
-        # Fallback to SQLite if no local_settings
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
+    # Local development database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
+    }
+    print("Using SQLite database")
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
