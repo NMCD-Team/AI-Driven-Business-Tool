@@ -174,7 +174,8 @@ class AnalyzeView(APIView):
                 email_address = assessment.email or user.email
                 
                 if email_address:
-                    frontend_url = getattr(settings, 'FRONTEND_URL', 'http://localhost:3000')
+                    # Use environment variable for frontend URL
+                    frontend_url = os.environ.get('FRONTEND_URL', settings.FRONTEND_URL)
                     report_url = f"{frontend_url}/reports/{report.id}"
                     
                     business_name = assessment.company_name
@@ -187,7 +188,8 @@ class AnalyzeView(APIView):
                     })
                     plain_message = strip_tags(html_message)
                     
-                    from_email = getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@example.com')
+                    # Use configured from email
+                    from_email = settings.DEFAULT_FROM_EMAIL
                     
                     send_mail(
                         subject='Your Business Analysis Report is Ready',
@@ -201,7 +203,7 @@ class AnalyzeView(APIView):
                     logger.info(f"Notification email sent to: {email_address} for report {report.id}")
                 else:
                     logger.warning("No email address available for report notification")
-                    
+                                
             except Exception as email_error:
                 logger.error(f"Failed to send email notification: {str(email_error)}")
 

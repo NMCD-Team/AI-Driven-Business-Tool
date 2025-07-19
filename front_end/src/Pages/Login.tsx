@@ -13,22 +13,24 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleForm = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError(null);
+const handleForm = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
 
-        try {
-            const response = await fetch("http://localhost:8000/api/token/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: email,
-                    password: password,
-                }),
-            });
+    try {
+        const API_URL = process.env.REACT_APP_API_URL || 'https://ai-driven-business-tool.onrender.com';
+        
+        const response = await fetch(`${API_URL}/api/token/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: email,
+                password: password,
+            }),
+        });
 
             const data = await response.json();
 

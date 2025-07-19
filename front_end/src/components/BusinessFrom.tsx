@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import AnalysisResults from "./AnalysisResults";
 import { AnalysisResult } from "../types/FormTypes";
+import { API_BASE_URL } from "../Provider/config/api";
 
 const parseAnalysisResult = (text: string) => {
     // split into sections
@@ -270,9 +271,9 @@ const BusinessForm = () => {
                     "Authentication token missing for fetching report."
                 );
             }
-
+    
             const reportResponse = await fetch(
-                `http://localhost:8000/api/reports/${reportId}/`,
+                `${API_BASE_URL}/api/reports/${reportId}/`,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
