@@ -19,7 +19,7 @@ const handleForm = async (e) => {
     setError(null);
 
     try {
-        const API_URL = process.env.REACT_APP_API_URL || 'https://ai-driven-business-tool.onrender.com';
+        const API_URL = import.meta.env.VITE_API_URL || 'https://ai-driven-business-tool.onrender.com';
         
         const response = await fetch(`${API_URL}/api/token/`, {
             method: "POST",
