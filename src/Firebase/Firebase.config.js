@@ -4,14 +4,19 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"; 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyArgLrbFQQCROkV0Hv4Vou-8QIJMTLDcuw",
-  authDomain: "ai-driven-business-tool.firebaseapp.com",
-  projectId: "ai-driven-business-tool",
-  storageBucket: "ai-driven-business-tool.firebasestorage.app",
-  messagingSenderId: "692336317286",
-  appId: "1:692336317286:web:85f509ca62ab33a5a02ea7",
-  measurementId: "G-2NGTVWL2HS"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
+
+// Add error checking
+if (!firebaseConfig.apiKey) {
+  throw new Error("Firebase API key is not configured. Please check your environment variables.");
+}
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
