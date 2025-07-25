@@ -18,3 +18,15 @@ __pycache__/
 node_modules
 .env
 .env
+
+echo "
+# Yarn files (we use npm)
+yarn.lock
+.yarn/
+yarn-error.log
+
+# Node modules should only be in front_end
+/node_modules
+/package-lock.json
+/package.json
+" >> .gitignore
